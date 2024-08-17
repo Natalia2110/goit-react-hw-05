@@ -1,0 +1,25 @@
+.link {
+  display: inline-flex;
+  padding: 10px;
+
+  /* border: 1px solid black; */
+  text-decoration: none;
+
+  /* border-radius: 8px; */
+  /* background-color: transparent; */
+  color: inherit;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  transition: all 0.3s;
+}
+
+.active {
+  /* background-color: black; */
+  color: #8056fc;
+  text-decoration: underline;
+}
+
+.nav {
+  display: flex;
+  gap: 15px;
+}
