@@ -1,31 +1,41 @@
 // import React from "react";
 import { useState, useEffect } from "react";
 import { requestSearchMovies } from "../services/api.js";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import MovieList from "../components/MovieList/MovieList";
 import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import Loader from "../components/Loader/Loader";
 import LoadMoreBtn from "../components/LoadMoreBtn/LoadMoreBtn.jsx";
 import SearchMoviesForm from "../components/SearchMoviesForm/SearchMoviesForm";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 const MoviesPage = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [searchValue, setSearchValue] = useState(null);
-  const [moviesList, setMoviesList] = useState(() => {
-    const localStorageValue = window.localStorage.getItem("moviesListValue");
-    if (localStorageValue !== null) {
-      return JSON.parse(localStorageValue);
-    }
-    [];
-  });
+  // const [searchValue, setSearchValue] = useState(null);
+  const [moviesList, setMoviesList] = useState(null);
+  // const [moviesList, setMoviesList] = useState(() => {
+  //   const localStorageValue = window.localStorage.getItem("moviesListValue");
+  //   if (localStorageValue !== null) {
+  //     return JSON.parse(localStorageValue);
+  //   }
+  //   [];
+  // });
   const [page, setPage] = useState(1);
   const [showBtn, setShowBtn] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
+  console.log(location);
+
+  const query = searchParams.get("query");
+  console.log(query);
 
   const handleOnSearchMovies = (value) => {
     setMoviesList([]);
     setPage(1);
-    setSearchValue(value);
+    setSearchParams({
+      query: value,
+    });
   };
   const handleClickLoadMoreBtn = () => {
     const nextPage = page + 1;
@@ -40,23 +50,23 @@ const MoviesPage = () => {
     return setShowBtn(false);
   };
 
-  useEffect(() => {
-    window.localStorage.setItem("moviesListValue", JSON.stringify(moviesList));
-  }, [moviesList]);
+  // useEffect(() => {
+  //   window.localStorage.setItem("moviesListValue", JSON.stringify(moviesList));
+  // }, [moviesList]);
 
   useEffect(() => {
-    if (searchValue === null) return;
+    if (query === null) return;
     const fetchSearchMoviesByValue = async () => {
       try {
         setError(null);
         setIsLoading(true);
         setMoviesList([]);
-        const { data } = await requestSearchMovies(searchValue, page);
+        const { data } = await requestSearchMovies(query, page);
         if (data.results.length === 0) {
           setMoviesList([]);
           setError("Error");
         } else {
-          setMoviesList(data.results);
+          setMoviesList([...moviesList, ...data.results]);
           showLoadMoreButton(data.total_pages);
         }
         // console.log(data.results);
@@ -69,14 +79,14 @@ const MoviesPage = () => {
       }
     };
     fetchSearchMoviesByValue();
-  }, [searchValue, page]);
+  }, [query, page]);
 
-  console.log(searchValue);
+  // console.log(searchValue);
   return (
     <div>
       <SearchMoviesForm onSubmit={handleOnSearchMovies} />
       {isLoading && <Loader />}
-      {error !== null && <ErrorMessage onError={searchValue} />}
+      {error !== null && <ErrorMessage onError={query} />}
       {Array.isArray(moviesList) && moviesList.length !== 0 && (
         <MovieList onMoviesList={moviesList} />
       )}

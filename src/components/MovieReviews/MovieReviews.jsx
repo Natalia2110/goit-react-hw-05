@@ -15,6 +15,9 @@ const MovieReviews = () => {
         setMovieReviews([]);
         const { data } = await requestMovieReviews(movieId);
         console.log(data);
+        if (data.results.length === 0) {
+          setError("We don't have any reviews for this movie");
+        }
         setMovieReviews(data.results);
         console.log(data.results);
       } catch (error) {
