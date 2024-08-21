@@ -17,7 +17,7 @@ const MovieReviews = () => {
         setError(null);
         setMovieReviews([]);
         const { data } = await requestMovieReviews(movieId);
-        console.log(data);
+
         if (data.results.length === 0) {
           setError("We don't have any reviews for this movie");
         }
@@ -48,9 +48,7 @@ const MovieReviews = () => {
       )}
 
       {error !== null && (
-        <p style={{ color: "red" }}>
-          {error}.Not found. Please, try again later.
-        </p>
+        <p style={{ color: "red" }}>{error}.Please, try again later.</p>
       )}
     </div>
   );

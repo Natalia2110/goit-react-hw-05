@@ -45,6 +45,9 @@ const MovieDetailsPage = () => {
   //   return genres;
   // };
 
+  const defaultImg =
+    "<https://dummyimage.com/400x600/cdcdcd/000.jpg&text=No+poster>";
+
   return (
     <div>
       {movieDetails !== null && (
@@ -52,8 +55,18 @@ const MovieDetailsPage = () => {
           <Link to={backLinkRef.current}>⬅ Go back</Link>
           <div>
             <img
-              src={`https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`}
+              src={
+                movieDetails.poster_path
+                  ? `https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`
+                  : defaultImg
+              }
+              // {
+              //   movieDetails.poster_path
+              //     ? `https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`
+              //     : defaultImg
+              // }
               alt={`${movieDetails.original_title} movie poster`}
+              width={600}
             />
             <div>
               <div>

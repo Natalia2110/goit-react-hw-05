@@ -1,37 +1,13 @@
-// import React from "react";
-// import css from "./SearchMoviesForm.module.css";
-
-// const SearchMoviesForm = () => {
-//   return (
-//     <div>
-//       <form>
-//         <input
-//           name="input"
-//           className={css.input}
-//           type="text"
-//           autoComplete="off"
-//           autoFocus
-//           placeholder="Search mowies"
-//         />
-//         <button>Search</button>
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default SearchMoviesForm;
-
 import { useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import css from "./SearchMoviesForm.module.css";
 import toast, { Toaster } from "react-hot-toast";
 
-const SearchMoviesForm = ({ onSubmit }) => {
+const SearchMoviesForm = ({ onSearch }) => {
   const [notification, setNotification] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log(event.currentTarget.elements.input.value);
 
     if (event.currentTarget.elements.input.value.trim() === "") {
       setNotification(true);
@@ -39,13 +15,12 @@ const SearchMoviesForm = ({ onSubmit }) => {
       setNotification(false);
       const form = event.target;
       const inputValue = form.input.value.trim();
-      onSubmit(inputValue);
+      onSearch(inputValue);
       form.reset();
     }
   };
 
   const notify = () =>
-    // toast.dismiss();
     toast.error("Введіть текст для пошуку фільмів", {
       duration: 2000,
     });
@@ -81,5 +56,57 @@ const SearchMoviesForm = ({ onSubmit }) => {
     </div>
   );
 };
+
+// import { ErrorMessage, Field, Form, Formik } from "formik";
+// import * as Yup from "yup";
+
+// import css from "./SearchPostsForm.module.css";
+
+// const SearchPostsValidationSchema = Yup.object().shape({
+//   searchTerm: Yup.string()
+//     .required("Пошукове слово є обов'язковим")
+//     .min(2, "Пошукове слово має бути мінімум в 2 символи")
+//     .max(100, "Пошукове слово має бути меншим за 100 символів"),
+// });
+
+// const SearchMoviesForm = ({ onSubmit, defaultSearchValue }) => {
+//   const INITIAL_VALUES = {
+//     searchTerm: defaultSearchValue || "",
+//   };
+
+//   const handleSubmit = (values) => {
+//     onSubmit(values.searchTerm);
+//   };
+
+//   return (
+//     <Formik
+//       initialValues={INITIAL_VALUES}
+//       onSubmit={handleSubmit}
+//       validationSchema={SearchPostsValidationSchema}
+//     >
+//       {({ errors }) => (
+//         <Form className={css.form}>
+//           <label className={css.label}>
+//             <span>Знайти пости за заголовком:</span>
+//             <Field type="text" name="searchTerm" placeholder="Love..." />
+//             <ErrorMessage
+//               className={css.errorText}
+//               name="searchTerm"
+//               component="span"
+//             />
+//           </label>
+
+//           <button
+//             disabled={Object.keys(errors).length > 0}
+//             className={css.submitBtn}
+//             type="submit"
+//           >
+//             🔍 Search Posts
+//           </button>
+//         </Form>
+//       )}
+//     </Formik>
+//   );
+// };
 
 export default SearchMoviesForm;

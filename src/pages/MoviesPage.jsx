@@ -66,7 +66,9 @@ const MoviesPage = () => {
           setMoviesList([]);
           setError("Error");
         } else {
-          setMoviesList([...moviesList, ...data.results]);
+          // const addMovieListPage = [...moviesList, ...data.results];
+          // setMoviesList(addMovieListPage);
+          setMoviesList(data.results);
           showLoadMoreButton(data.total_pages);
         }
         // console.log(data.results);
@@ -75,7 +77,7 @@ const MoviesPage = () => {
         setError(error.message);
       } finally {
         setIsLoading(false);
-        console.log("finally Search Movies");
+        // console.log("finally Search Movies");
       }
     };
     fetchSearchMoviesByValue();
@@ -84,7 +86,10 @@ const MoviesPage = () => {
   // console.log(searchValue);
   return (
     <div>
-      <SearchMoviesForm onSubmit={handleOnSearchMovies} />
+      <SearchMoviesForm
+        // defaultSearchValue={query}
+        onSearch={handleOnSearchMovies}
+      />
       {isLoading && <Loader />}
       {error !== null && <ErrorMessage onError={query} />}
       {Array.isArray(moviesList) && moviesList.length !== 0 && (

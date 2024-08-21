@@ -17,6 +17,10 @@ const MovieCast = () => {
         setError(null);
         setMovieCastData([]);
         const { data } = await requestMovieCast(movieId);
+        console.log(data.cast.length);
+        if (data.cast.length === 0) {
+          setError("We don't have any cast for this movie");
+        }
         setMovieCastData(data.cast);
         console.log(data.cast);
       } catch (error) {
