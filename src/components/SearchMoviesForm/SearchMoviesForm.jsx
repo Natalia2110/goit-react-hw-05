@@ -3,7 +3,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import css from "./SearchMoviesForm.module.css";
 import toast, { Toaster } from "react-hot-toast";
 
-const SearchMoviesForm = ({ onSearch }) => {
+const SearchMoviesForm = ({ onSearch, defaultSearchValue }) => {
   const [notification, setNotification] = useState(false);
 
   const handleSubmit = (event) => {
@@ -35,6 +35,7 @@ const SearchMoviesForm = ({ onSearch }) => {
           autoComplete="off"
           autoFocus
           placeholder="Search movies"
+          defaultValue={defaultSearchValue}
         />
         <button type="submit" className={css.btn} onClick={notify}>
           <IoSearchOutline size="24" className={css["search-icon"]} />

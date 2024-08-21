@@ -87,7 +87,7 @@ const MoviesPage = () => {
   return (
     <div>
       <SearchMoviesForm
-        // defaultSearchValue={query}
+        defaultSearchValue={query}
         onSearch={handleOnSearchMovies}
       />
       {isLoading && <Loader />}
