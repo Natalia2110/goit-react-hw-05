@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { requestMovieCast } from "/src/services/api.js";
+import Loader from "../Loader/Loader";
 
 const MovieCast = () => {
   const { movieId } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [movieCastData, setMovieCastData] = useState([]);
   console.log(movieId);
@@ -11,6 +13,7 @@ const MovieCast = () => {
     if (!movieId) return;
     const fetchMovieCast = async () => {
       try {
+        setIsLoading(true);
         setError(null);
         setMovieCastData([]);
         const { data } = await requestMovieCast(movieId);
@@ -19,7 +22,7 @@ const MovieCast = () => {
       } catch (error) {
         setError(error.message);
       } finally {
-        console.log("MovieCast-finally");
+        setIsLoading(false);
       }
     };
     fetchMovieCast();
@@ -30,6 +33,7 @@ const MovieCast = () => {
 
   return (
     <div>
+      {isLoading && <Loader />}
       {Array.isArray(movieCastData) && movieCastData.length !== 0 && (
         <ul>
           {movieCastData.map((cast) => {

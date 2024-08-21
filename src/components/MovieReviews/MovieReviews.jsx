@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { requestMovieReviews } from "/src/services/api.js";
+import Loader from "../Loader/Loader";
 
 const MovieReviews = () => {
   const { movieId } = useParams();
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [movieReviews, setMovieReviews] = useState([]);
   console.log(movieId);
   useEffect(() => {
     if (!movieId) return;
     const fetchMovieReviews = async () => {
       try {
+        setIsLoading(true);
         setError(null);
         setMovieReviews([]);
         const { data } = await requestMovieReviews(movieId);
@@ -23,13 +26,14 @@ const MovieReviews = () => {
       } catch (error) {
         setError(error.message);
       } finally {
-        console.log("MovieReviews-finally");
+        setIsLoading(false);
       }
     };
     fetchMovieReviews();
   }, [movieId]);
   return (
     <div>
+      {isLoading && <Loader />}
       {Array.isArray(movieReviews) && movieReviews.length !== 0 && (
         <ul>
           {movieReviews.map((review) => {
