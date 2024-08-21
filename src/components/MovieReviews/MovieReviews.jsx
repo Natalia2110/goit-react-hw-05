@@ -8,7 +8,7 @@ const MovieReviews = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [movieReviews, setMovieReviews] = useState([]);
-  console.log(movieId);
+
   useEffect(() => {
     if (!movieId) return;
     const fetchMovieReviews = async () => {
@@ -22,7 +22,6 @@ const MovieReviews = () => {
           setError("We don't have any reviews for this movie");
         }
         setMovieReviews(data.results);
-        console.log(data.results);
       } catch (error) {
         setError(error.message);
       } finally {

@@ -12,12 +12,10 @@ import { useState, useEffect, useRef } from "react";
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
-  // console.log(movieId);
   const location = useLocation();
   const [movieDetails, setMovieDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  // const [location] = useLocation();
 
   const backLinkRef = useRef(location.state?.from ?? "/movie");
 
@@ -28,11 +26,9 @@ const MovieDetailsPage = () => {
       try {
         setIsLoading(true);
         const { data } = await requestByMovieID(movieId);
-        console.log(data);
         setMovieDetails(data);
       } catch (error) {
         setError(error.message);
-        console.log(error.message);
       } finally {
         setIsLoading(false);
       }
@@ -40,13 +36,8 @@ const MovieDetailsPage = () => {
     fetchrequestByMovieID();
   }, [movieId]);
 
-  // const getGenres = () => {
-  //   const genres = movieDetails.genres.map((genre) => genre.name).join(", ");
-  //   return genres;
-  // };
-
   const defaultImg =
-    "<https://dummyimage.com/400x600/cdcdcd/000.jpg&text=No+poster>";
+    "https://dummyimage.com/400x600/cdcdcd/000.jpg&text=No+poster";
 
   return (
     <div>
@@ -60,11 +51,6 @@ const MovieDetailsPage = () => {
                   ? `https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`
                   : defaultImg
               }
-              // {
-              //   movieDetails.poster_path
-              //     ? `https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`
-              //     : defaultImg
-              // }
               alt={`${movieDetails.original_title} movie poster`}
               width={600}
             />

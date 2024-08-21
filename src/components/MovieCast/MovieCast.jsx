@@ -8,7 +8,7 @@ const MovieCast = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [movieCastData, setMovieCastData] = useState([]);
-  console.log(movieId);
+
   useEffect(() => {
     if (!movieId) return;
     const fetchMovieCast = async () => {
@@ -17,12 +17,11 @@ const MovieCast = () => {
         setError(null);
         setMovieCastData([]);
         const { data } = await requestMovieCast(movieId);
-        console.log(data.cast.length);
+
         if (data.cast.length === 0) {
           setError("We don't have any cast for this movie");
         }
         setMovieCastData(data.cast);
-        console.log(data.cast);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -60,9 +59,7 @@ const MovieCast = () => {
         </ul>
       )}
       {error !== null && (
-        <p style={{ color: "red" }}>
-          {error}.Not found. Please, try again later.
-        </p>
+        <p style={{ color: "red" }}>{error}. Please, try again later.</p>
       )}
     </div>
   );

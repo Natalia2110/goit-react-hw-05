@@ -7,28 +7,17 @@ import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import Loader from "../components/Loader/Loader";
 import LoadMoreBtn from "../components/LoadMoreBtn/LoadMoreBtn.jsx";
 import SearchMoviesForm from "../components/SearchMoviesForm/SearchMoviesForm";
-// import { Link } from "react-router-dom";
 
 const MoviesPage = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  // const [searchValue, setSearchValue] = useState(null);
   const [moviesList, setMoviesList] = useState(null);
-  // const [moviesList, setMoviesList] = useState(() => {
-  //   const localStorageValue = window.localStorage.getItem("moviesListValue");
-  //   if (localStorageValue !== null) {
-  //     return JSON.parse(localStorageValue);
-  //   }
-  //   [];
-  // });
   const [page, setPage] = useState(1);
   const [showBtn, setShowBtn] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
-  console.log(location);
 
   const query = searchParams.get("query");
-  console.log(query);
 
   const handleOnSearchMovies = (value) => {
     setMoviesList([]);
@@ -40,19 +29,13 @@ const MoviesPage = () => {
   const handleClickLoadMoreBtn = () => {
     const nextPage = page + 1;
     setPage(nextPage);
-    console.log(nextPage);
   };
   const showLoadMoreButton = (allPages) => {
     if (allPages !== page) {
-      // console.log(`all pages: ${allPages}`);
       return setShowBtn(true);
     }
     return setShowBtn(false);
   };
-
-  // useEffect(() => {
-  //   window.localStorage.setItem("moviesListValue", JSON.stringify(moviesList));
-  // }, [moviesList]);
 
   useEffect(() => {
     if (query === null) return;
@@ -66,18 +49,13 @@ const MoviesPage = () => {
           setMoviesList([]);
           setError("Error");
         } else {
-          // const addMovieListPage = [...moviesList, ...data.results];
-          // setMoviesList(addMovieListPage);
           setMoviesList(data.results);
           showLoadMoreButton(data.total_pages);
         }
-        // console.log(data.results);
       } catch (error) {
-        console.log(error);
         setError(error.message);
       } finally {
         setIsLoading(false);
-        // console.log("finally Search Movies");
       }
     };
     fetchSearchMoviesByValue();

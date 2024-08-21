@@ -1,7 +1,5 @@
 import css from "./LoadMoreBtn.module.css";
 
-// import React from "react";
-
 const LoadMoreBtn = ({ onClickBtn }) => {
   return (
     <div className={css["load-box"]}>
